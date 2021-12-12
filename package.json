@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon app.js",
-    "server": "node app.js"
+    "server": "node app.js",
+    "start": "node app.js"
   },
   "author": "Koroliuk Vlad <koroliuk.vladuslav@gmail.com>",
   "license": "ISC",
