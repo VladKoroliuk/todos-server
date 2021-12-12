@@ -28,7 +28,8 @@ const start = async () => {
     try {
         await mongoose.connect(db.dbLink, {
             useNewUrlParser: true,
-            useFindAndModify: false
+            useFindAndModify: false,
+            useUnifiedTopology: true
         })
         app.listen(process.env.PORT || 3000, (err)=>{
             if(err){
