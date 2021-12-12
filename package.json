@@ -1,0 +1,28 @@
+{
+  "name": "todos-server",
+  "version": "1.0.0",
+  "description": "Backend for todos service",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "server": "node app.js"
+  },
+  "author": "Koroliuk Vlad <koroliuk.vladuslav@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-history-api-fallback": "^1.6.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.12",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.2",
+    "nodemon": "^2.0.7",
+    "uuid": "^8.3.2"
+  }
+}
