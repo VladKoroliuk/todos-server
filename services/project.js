@@ -1,111 +1,97 @@
-import ApiError from "../exeptions/api-error.js"
-import projectModel from "../models/project.js"
-import projectSectionModel from '../models/projectSection.js'
-import userModel from '../models/user.js'
+import ApiError from "../exeptions/api-error.js";
+import projectModel from "../models/project.js";
+import projectSectionModel from "../models/projectSection.js";
+import userModel from "../models/user.js";
 
-class Project{
-    async create(creator, name, color, type){
-        
-        const projectData = { creator, name, color, type }
+class Project {
+  async create(creator, name, color, type) {
+    const projectData = { creator, name, color, type };
 
-        const project = await projectModel.create({
-            ...projectData,
-            users: [creator]
-        })
+    const project = await projectModel.create({
+      ...projectData,
+      users: [creator],
+    });
 
-        return await project.save()
-
+    return await project.save();
+  }
+  isProjectAvailable(candidate, userID) {
+    if (candidate.creator != userID) {
+      throw ApiError.BadRequest();
     }
-    isProjectAvailable(candidate, userID){
+  }
+  async get(userID) {
+    const user = await userModel.findById(userID);
 
-        if(candidate.creator != userID){
-            throw ApiError.BadRequest()
-        }
+    const result = await projectModel.find({ _id: { $in: user.projects } });
 
-    }
-    async get(userID){
-        
-        const user = await userModel.findById(userID)
+    return result;
+  }
+  async delete(projectID, userID) {
+    const candidate = await projectModel.findById(projectID);
 
-        const result = await projectModel.find( { '_id' : { $in: user.projects} })
+    this.isProjectAvailable(candidate, userID);
 
-        return result
-        
-    }
-    async delete(projectID, userID){
+    return await projectModel.findByIdAndDelete(projectID);
+  }
+  async change(data, userID) {
+    const candidate = await projectModel.findById(data._id);
 
-        const candidate = await projectModel.findById(projectID)
+    this.isProjectAvailable(candidate, userID);
 
-        this.isProjectAvailable(candidate, userID)
+    candidate.color = data.color;
+    candidate.name = data.name;
+    candidate.type = data.type;
 
-        return await projectModel.findByIdAndDelete(projectID)
+    return await candidate.save();
+  }
+  async createSection(data) {
+    const sections = await projectSectionModel.find({
+      projectID: data.projectID,
+    });
 
-    }
-    async change(data, userID){
+    const last = sections[sections.length - 1];
 
-        const candidate = await projectModel.findById(data._id)
+    const index = !last ? 0 : last.subsequenceIndex + 100;
 
-        this.isProjectAvailable(candidate, userID)
+    data.subsequenceIndex = index;
 
-        candidate.color = data.color
-        candidate.name = data.name
-        candidate.type = data.type
+    const section = await projectSectionModel.create(data);
 
-        return await candidate.save()
-        
-    }
-    async createSection(data){
+    return section.save();
+  }
+  async getSections(projectID, user) {
+    const candidate = await projectModel.findById(projectID);
 
-        const sections = await projectSectionModel.find({projectID: data.projectID})
+    // this.isProjectAvailable(candidate, user)
 
-        const last = sections[sections.length - 1]
+    const sections = await projectSectionModel.find({ project: projectID });
 
-        const index = !last ? 0 : last.subsequenceIndex + 100
-    
-        data.subsequenceIndex = index
+    return sections;
+  }
+  async setSubsequenceSections(data) {
+    const previous = await projectSectionModel.find({
+      projectID: data[0].projectID,
+    });
 
-        const section = await projectSectionModel.create(data)
+    Array.prototype.forEach.call(data, (e) => {
+      const candidate = [...previous].find((elem) => elem._id == e._id);
 
-        return section.save()
+      if (candidate.subsequenceIndex != e.subsequenceIndex) {
+        candidate.subsequenceIndex = e.subsequenceIndex;
+        candidate.save();
+      }
+    });
 
-    }
-    async getSections(projectID, user){
-
-        const candidate = await projectModel.findById(projectID)
-
-        // this.isProjectAvailable(candidate, user)
-
-        const sections = await projectSectionModel.find({project: projectID})
-
-
-        return sections
-
-    }
-    async setSubsequenceSections(data){
-
-        const previous = await projectSectionModel.find({projectID: data[0].projectID})
-
-        Array.prototype.forEach.call(data, e => {
-            const candidate = [...previous].find(elem => elem._id == e._id)
-
-            if(candidate.subsequenceIndex != e.subsequenceIndex){
-                candidate.subsequenceIndex = e.subsequenceIndex
-                candidate.save()
-            }
-
-        })
-
-        return data
-    }
-    async deleteSection(id){
-        return await projectSectionModel.findByIdAndRemove(id)
-    }
-    async renameSection(data){
-        const section = await projectSectionModel.findById(data.id)
-        section.name = data.name
-        return await section.save()
-    }
+    return data;
+  }
+  async deleteSection(id) {
+    return await projectSectionModel.findByIdAndRemove(id);
+  }
+  async renameSection(data) {
+    const section = await projectSectionModel.findById(data.id);
+    section.name = data.name;
+    return await section.save();
+  }
 }
 
-
-export default new Project
+export default new Project();
