@@ -8,7 +8,6 @@ import auth from "../middlewares/auth.js";
 const router = new Router();
 const avatar_upload = multer({ storage });
 
-router.get("/activate/:link", user.activate);
 router.get("/avatar/:name", user.getAvatar);
 router.get("/", auth, user.getUserData);
 

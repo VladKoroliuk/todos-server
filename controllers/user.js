@@ -53,14 +53,6 @@ class User {
       next(e);
     }
   }
-  async activate(req, res, next) {
-    try {
-      await userService.activation(req.params.link);
-      return res.redirect(base.CLIENT_URL);
-    } catch (e) {
-      next(e);
-    }
-  }
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;

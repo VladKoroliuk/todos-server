@@ -32,15 +32,6 @@ class User {
     await tokenService.save(userData.id, tokens.refreshToken);
     return { ...tokens, user: userData };
   }
-  async activation(link) {
-    const user = await UserModel.findOne({ activationLink: link });
-    if (user && !user.isActivated) {
-      user.isActivated = true;
-      user.activationLink = "";
-      return await user.save();
-    }
-    throw ApiError.BadRequest(`Некоректная ссылка активации`);
-  }
   async login(email, password) {
     const candidate = await UserModel.findOne({ email });
 
