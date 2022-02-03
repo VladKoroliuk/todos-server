@@ -1,6 +1,6 @@
-const dbUserName = "root";
-const dbPassword = "5vwd1p1HnUQGrbCu";
+import dotenv from "dotenv";
+dotenv.config()
 
 export default {
-  dbLink: `mongodb+srv://${dbUserName}:${dbPassword}@todosdb.0iup7.mongodb.net/todos`,
+  dbLink: `mongodb+srv://${process.env.DB_USER_NAME}:${process.env.DB_PASSWORD}@todosdb.0iup7.mongodb.net/todos`,
 };

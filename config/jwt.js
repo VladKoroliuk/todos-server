@@ -1,10 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config()
+
 export default {
   access: {
-    secret: "321412341412414dkjgfsdfjisdfj2j238j9342gjsdijg23489t349gjgskdgj",
+    secret: process.env.ACCESS_TOKEN_SECRET,
     expiresIn: "60d",
   },
   refresh: {
-    secret: "asdasd3282389hHDUhHFd3r23rkajdsadsad23423rHHFKFjiefiIFAIFJAIFIAIf",
+    secret: process.env.REFRESH_TOKEN_SECRET,
     expiresIn: "30d",
   },
 };
