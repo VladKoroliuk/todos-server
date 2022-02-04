@@ -78,7 +78,6 @@ class Task {
     try {
       const id = req.body.id;
       const labels = req.body.labels;
-      console.log(labels);
       const result = await taskService.setLabels(id, labels);
 
       return res.status(200).json(result);
