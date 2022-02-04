@@ -52,7 +52,7 @@ class Label {
       const user = req.user.id;
 
       const result = await labelService.delete(id, user);
-      return result;
+      return res.json(result).status(200);
     } catch (e) {
       next(e);
     }
