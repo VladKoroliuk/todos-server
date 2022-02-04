@@ -55,7 +55,7 @@
 ### Built With
 
 
-* [Vue.js](https://vuejs.org/)
+* [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 * [Express](https://expressjs.com/)
 * [MongoDB](https://www.mongodb.com/)
 
