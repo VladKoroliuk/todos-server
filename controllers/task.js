@@ -4,7 +4,7 @@ import taskService from "../services/task.js";
 class Task {
   async create(req, res, next) {
     try {
-      const { text, term, description, id, parentID, project, projectSection } =
+      const { text, term, description, id, parentID, project, projectSection, priority } =
         req.body;
 
       if (!text || !term) {
@@ -20,6 +20,7 @@ class Task {
         parentID,
         project,
         projectSection,
+        priority,
       });
       res.json(task);
     } catch (e) {

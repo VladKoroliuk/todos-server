@@ -50,7 +50,7 @@ const task = new Schema({
   },
   priority: {
     type: Number,
-    default: 4,
+    default: 1,
     required: false,
   },
 });
