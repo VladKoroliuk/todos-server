@@ -1,10 +1,10 @@
-import ApiError from "../exeptions/api-error.js";
 import commentService from "../services/comment.js";
 
 class Comment {
   async create(req, res, next) {
     try {
-      const { task, text, userName } = req.body;
+      const { task, text } = req.body;
+      const userName = req.user.name;
       const result = await commentService.create(
         task,
         text,
