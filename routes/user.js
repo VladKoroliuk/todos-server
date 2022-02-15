@@ -10,7 +10,6 @@ const avatar_upload = multer({ storage });
 
 router.get("/avatar/:name", user.getAvatar);
 router.get("/", auth, user.getUserData);
-
 router.post(
   "/registration",
   body("email").isEmail(),
@@ -21,11 +20,10 @@ router.post(
 router.post("/login", user.login);
 router.post("/logout", user.logout);
 router.post("/refresh", user.refresh);
-
-router.post("/delete", auth, user.deleteAccount);
-
-router.post("/avatar", auth, avatar_upload.single("avatar"));
-
+router.delete("/", auth, user.deleteAccount);
+router.post("/avatar", auth, avatar_upload.single("avatar"), (req, res) => {
+  res.status(200);
+});
 router.patch(
   "/password",
   auth,
@@ -33,14 +31,12 @@ router.patch(
   body("newPassword").isLength({ min: 6, max: 32 }),
   user.changePassword
 );
-
 router.patch(
   "/name",
   auth,
   body("name").isLength({ min: 3, max: 16 }),
   user.changeName
 );
-
 router.patch("/theme", auth, user.changeColorTheme);
 router.patch("/locale", auth, user.changeLocale);
 
