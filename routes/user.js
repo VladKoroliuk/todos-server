@@ -24,10 +24,10 @@ router.post("/refresh", user.refresh);
 
 router.post("/delete", auth, user.deleteAccount);
 
-router.post("/upload_avatar", auth, avatar_upload.single("avatar"));
+router.post("/avatar", auth, avatar_upload.single("avatar"));
 
 router.patch(
-  "/change_password",
+  "/password",
   auth,
   body("oldPassword").isLength({ min: 6, max: 32 }),
   body("newPassword").isLength({ min: 6, max: 32 }),
@@ -35,13 +35,13 @@ router.patch(
 );
 
 router.patch(
-  "/changeName",
+  "/name",
   auth,
   body("name").isLength({ min: 3, max: 16 }),
   user.changeName
 );
 
-router.patch("/colorTheme", auth, user.changeColorTheme);
+router.patch("/theme", auth, user.changeColorTheme);
 router.patch("/locale", auth, user.changeLocale);
 
 export default router;
