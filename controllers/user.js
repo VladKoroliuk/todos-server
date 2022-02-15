@@ -93,9 +93,7 @@ class User {
         if (!err) {
           return res.sendFile(file);
         }
-        return res.sendFile(
-          path.resolve(path.join("./public/img/avatars/", "user.svg"))
-        );
+        return res.status(404);
       });
     } catch (e) {
       next(e);

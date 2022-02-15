@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     } else if (file.size < 5000000) {
       cb(new Error("file format not valid"));
     } else {
-      cb(null, file.originalname);
+      cb(null, `${req.user.id}.jpg`);
     }
   },
 });
