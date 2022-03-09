@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { base, db } from "./config/index.js";
+import { base, dbLink } from "./config/index.js";
 import mongoose from "mongoose";
 import history from "connect-history-api-fallback";
 import cookieParser from "cookie-parser";
@@ -26,7 +26,7 @@ app.use(errors);
 
 const start = async () => {
   try {
-    await mongoose.connect(db.dbLink, {
+    await mongoose.connect(dbLink, {
       useNewUrlParser: true,
       useFindAndModify: false,
       useUnifiedTopology: true,

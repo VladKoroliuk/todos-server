@@ -1,5 +1,5 @@
 import base from "./base.js";
-import db from "./db.js";
+import { dbLink, dbLinkLocal } from "./db.js";
 import jwtConf from "./jwt.js";
 
-export { base, db, jwtConf };
+export { base, dbLink, dbLinkLocal, jwtConf };

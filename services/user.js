@@ -136,8 +136,9 @@ class User {
     const user = await UserModel.findById(id);
 
     user.locale = locale;
-
-    return await user.save().locale;
+    await user.save();
+    
+    return locale;
   }
 }
 export default new User();
