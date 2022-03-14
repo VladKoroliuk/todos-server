@@ -4,23 +4,15 @@ import taskService from "../services/task.js";
 class Task {
   async create(req, res, next) {
     try {
-      const { text, term, description, id, parentID, project, projectSection, priority } =
-        req.body;
+      const { text, term } = req.body;
 
       if (!text || !term) {
         return next(ApiError.BadRequest("Ошибка при валидации"));
       }
 
       const task = await taskService.create({
-        text,
-        term,
         user: req.user.id,
-        description,
-        id,
-        parentID,
-        project,
-        projectSection,
-        priority,
+        ...req.body,
       });
       res.json(task);
     } catch (e) {
