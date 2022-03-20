@@ -100,9 +100,9 @@ class Project {
   }
   async renameSection(req, res, next) {
     try {
-      const data = req.body.data;
+      const { name, id } = req.body;
 
-      const response = await projectService.renameSection(data);
+      const response = await projectService.renameSection({name, id});
 
       res.json(response);
     } catch (e) {
